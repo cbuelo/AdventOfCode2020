@@ -33,7 +33,7 @@ bFile_df_validated = bFile_df_validated %>%
          hgt_unit = "NA")
 
 bFile_df_validated = bFile_df_validated %>% 
-  mutate(byr_valid = byr >= 1920 & byr <= 2002,
+  mutate(byr_valid = byr >= 1920 & byr <= 2002, # could do this with between
          iyr_valid = iyr >= 2010 & iyr <= 2020,
          eyr_valid = eyr >= 2020 & eyr <= 2030,
          hgt_unit = ifelse(grepl(.$hgt, pattern = "^[[:digit:]]+cm"), "cm", hgt_unit),
@@ -58,7 +58,7 @@ bFile_df_validated = bFile_df_validated %>%
 neededCols_valid = paste0(neededCols, "_valid")
 
 bFile_df_validated = bFile_df_validated %>% 
-  mutate(FullyValid = rowSums(!is.na(.[, all_of(neededCols_valid)])) == 7)
+  mutate(FullyValid = rowSums(!is.na(.[, all_of(neededCols_valid)]) & .[, all_of(neededCols_valid)]) == 7)
 
 sum(bFile_df_validated$FullyValid)
 
